@@ -2,12 +2,13 @@ f_read = open('vvod.txt', 'r')
 strings = f_read.readlines()
 ver = strings[0].split()
 mass = []
-value = []
+Om_value = []
 for x in range(1,len(strings)):
 
     line = strings[x].split()
     mass.append(line[::2])
-    value.append(line[1::2])
+    Om_value.append(line[1::2])
+Amper_value = []*(len(mass)//2)
 f_read.close()
 
 k=0
