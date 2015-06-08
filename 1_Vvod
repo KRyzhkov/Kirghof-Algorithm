@@ -2,18 +2,17 @@ f_read = open('vvod.txt', 'r')
 strings = f_read.readlines()
 ver = strings[0].split()
 mass = []
-mnog = {}
+value = []
 for x in range(1,len(strings)):
+
     line = strings[x].split()
     mass.append(line[::2])
-    for y in range(len(mass)):
-        mnog.append(mass[y]:int(line[y*2-1]))
-print(mass)
+    value.append(line[1::2])
 f_read.close()
 
-'''print(N[0][1])
 k=0
-for x in N:
+for x in mass:
     if len(x)>2:
         k+=1
-#k - kol-vo tochek razvetvleniya'''
+print(k)
+#k - kol-vo tochek razvetvleniya
