@@ -11,10 +11,6 @@ for x in range(1,len(strings)):
 Amper_value = []*(len(mass)//2)
 f_read.close()
 
-
-for x in mass:
-    for y in x:
-        
 t = -1
 l = []*2
 for x in mass: 
