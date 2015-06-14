@@ -5,15 +5,49 @@ mass = []
 Om_value = []
 for x in range(1,len(strings)):
 
-    line = strings[x].split()
+    line = map(int,strings[x].split())
     mass.append(line[::2])
     Om_value.append(line[1::2])
 Amper_value = []*(len(mass)//2)
 f_read.close()
 
-k=0
+
 for x in mass:
+    for y in x:
+        
+t = -1
+l = []*2
+for x in mass: 
+    t += 1
+    if len(x)<=2:
+        k = x
+        valuek = Om_value[t]
+        x = []
+        p = -1
+        for y in mass[k[0]-1]:
+            p += 1
+            if y == t+1:
+                y = k[1]
+                l[0] = p
+        for y in mass[k[1]-1]:
+            p += 1
+            if y == t+1:
+                y = k[0]
+                l[1] = p
+        Om_value[k[0]-1][l[0]] = Om_value[t][0]+Om_value[t][1]
+        Om_value[k[1]-1][l[1]] = Om_value[k[0]-1][l[0]]
+for x in mass: 
+    t += 1
     if len(x)>2:
-        k+=1
-print(k)
-#k - kol-vo tochek razvetvleniya
+        for y in range(len(mass)):
+            a = x.count(y)
+            if a>1:
+                zn = x.index(y)
+                Om_value[t][zn] = Om_value[t][zn] // a
+                for o in range(zn,len(x)):
+                    if x[o] == y:
+                        x.pop(o)
+                        Om_value[t].pop(o)
+
+
+                
