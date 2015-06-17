@@ -5,16 +5,16 @@ mass = []
 Om_value = []
 for x in range(1,len(strings)):
 
-    line = map(int,strings[x].split())
+    line = list(map(int,strings[x].split()))
     mass.append(line[::2]) 
     Om_value.append(line[1::2])
-Amper_value = []*(len(mass)//2)
+Amper_value = []*(len(mass)//2) 
 f_read.close()
 
 
-
+print(mass)
 poi = 1
-while poi = 1:      
+while poi == 1:      
     t = -1
     l = []*2
 
@@ -65,7 +65,7 @@ while poi = 1:
     for x in mass:
         if 3>len(x)>0:
             poi = 1
-
+print(mass)
 #Sostavlenie sistemy yr-i
 
 """t = -1
@@ -97,13 +97,15 @@ for x in mass:
     t += 1
     if len(x)>2:
         index = []
+        e = -1
         for y in x:
-            if mass2[x][y] >= 0 :
+            e += 1
+            if mass2[t][e] >= 0 :
                 p += 1
                 index.append(p)
-                mass2[y][x] = -1000000 + p
+                mass2[e][t] = -1000000 + p
             else:
-                index.append(mass2[x][y]+1000000)
+                index.append(mass2[t][e]+1000000)
         mass_index.append(index)
 
 uravn = []
@@ -150,22 +152,22 @@ for x in range(kontur.count(-400)):
 
 for x in kontur:
     rebr = [0]*(len_index-1)
-    rebr[mass_index[x[0]-1][x[1]-1] = Om_value[x[0]-1][x[1]-1]
-    rebr[mass_index[x[1]-1][x[2]-1] = Om_value[x[1]-1][x[2]-1]
-    rebr[mass_index[x[2]-1][x[0]-1] = -Om_value[x[2]-1][x[0]-1]
+    rebr[mass_index[x[0]-1][x[1]-1]] = Om_value[x[0]-1][x[1]-1]
+    rebr[mass_index[x[1]-1][x[2]-1]] = Om_value[x[1]-1][x[2]-1]
+    rebr[mass_index[x[2]-1][x[0]-1]] = -Om_value[x[2]-1][x[0]-1]
     uravn.append[rebr]
 
 #решение СЛАУ методом Гаусса
-for y in range(len(uravn)-1):
+for y in range(len(uravn)):
     x = y
     while uravn[x][y] != 0: 
         x += 1
     i = uravn[y]
-   uravn[y] = uravn[x]
-   uravn[x] = i
-   k1 = uravn[y][y]
-   k2 = uravn[y+1][y]
-   for q in range(len_index):
+    uravn[y] = uravn[x]
+    uravn[x] = i
+    k1 = uravn[y][y]
+    k2 = uravn[y+1][y]
+    for q in range(len_index):
        uravn[y+1][q] = uravn[y+1][q] * (k1/k2) - uravn[y][q]
 
 for y in range(len(uravn)-1,-1,-1):
