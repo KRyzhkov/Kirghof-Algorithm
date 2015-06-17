@@ -114,8 +114,6 @@ for x in mass:
     t1 += 1
     if x == 0 :
         rebr[0] = 1
-    if x == len(mass)-1:
-        rebr[0] = -1
     if len(x) > 2:
         p1 = -1
         for y in x:
@@ -125,7 +123,8 @@ for x in mass:
             if x > y:
                 zn = 1
             rebr[mass_index[t1][p1]] = zn
-    uravn.append[rebr]
+    if t1 != (len(mass)-1):
+        uravn.append[rebr]
 
 #Obhod konturov
 
@@ -155,3 +154,20 @@ for x in kontur:
     rebr[mass_index[x[1]-1][x[2]-1] = Om_value[x[1]-1][x[2]-1]
     rebr[mass_index[x[2]-1][x[0]-1] = -Om_value[x[2]-1][x[0]-1]
     uravn.append[rebr]
+
+#решение СЛАУ методом Гаусса
+for y in range(len(uravn)-1):
+    x = y
+    while uravn[x][y] != 0: 
+        x += 1
+    i = uravn[y]
+   uravn[y] = uravn[x]
+   uravn[x] = i
+   k1 = uravn[y][y]
+   k2 = uravn[y+1][y]
+   for q in range(len_index):
+       uravn[y+1][q] = uravn[y+1][q] * (k1/k2) - uravn[y][q]
+
+for y in range(len(uravn)-1,-1,-1):
+    for x in xrange(1,10):
+        pass
