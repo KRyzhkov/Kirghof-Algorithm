@@ -8,7 +8,6 @@ for x in range(1,len(strings)):
     line = list(map(int,strings[x].split()))
     mass.append(line[::2]) 
     Om_value.append(line[1::2])
-Amper_value = []*(len(mass)//2) 
 f_read.close()
 
 
@@ -126,6 +125,7 @@ for x in mass:
                 zn = 1
             rebr[mass_index[t1][p1]] = zn
     if t1 != (len(mass)-1):
+        rebr.append(0)
         uravn.append[rebr]
 
 #Obhod konturov
@@ -134,7 +134,7 @@ kontur = []
 t2 = -1
 for x in mass:
     t2 += 1
-    if len(x)>2:
+    if (len(x)>2) and (t2 != 0) and (t2 != len(mass)-1):
         for y in x:
             for z in mass[y-1]:
                 for a in mass[z-1]:
@@ -155,7 +155,29 @@ for x in kontur:
     rebr[mass_index[x[0]-1][x[1]-1]] = Om_value[x[0]-1][x[1]-1]
     rebr[mass_index[x[1]-1][x[2]-1]] = Om_value[x[1]-1][x[2]-1]
     rebr[mass_index[x[2]-1][x[0]-1]] = -Om_value[x[2]-1][x[0]-1]
+    rebr.append(0)
     uravn.append[rebr]
+root = []
+
+def kontur1(mass,root,t):
+    for x in mass[t]:
+        if x != 0:
+            root.append(x) 
+            if x == len(mass):
+
+                return root
+            else:
+                kontur1(mass,root,x)
+
+a = kontur1(mass,root,0)
+rebr = [0]*(len_index-1)
+w = 1
+for x in len(a):
+    s = mass[w-1].index(a[x])
+    rebr[mass_index[w-1][s-1]] = Om_value[w-1][s-1]
+    w = a[x]
+rebr.append(int(input()))
+uravn.append(rebr)
 
 #решение СЛАУ методом Гаусса
 for y in range(len(uravn)):
@@ -167,9 +189,12 @@ for y in range(len(uravn)):
     uravn[x] = i
     k1 = uravn[y][y]
     k2 = uravn[y+1][y]
-    for q in range(len_index):
+    for q in range(len_index+1):
        uravn[y+1][q] = uravn[y+1][q] * (k1/k2) - uravn[y][q]
 
+Amper_value = [0]*len_index 
 for y in range(len(uravn)-1,-1,-1):
-    for x in xrange(1,10):
-        pass
+    Amper_value[y] = uravn[y][len_index+1]/uravn[y][y]
+    for r in range(y-1, -1, 0):
+        uravn[r][len_index+1] = uravn[r][len_index + 1] - uravn[r][y] * Amper_value[y]
+        uravn[r][y] = 0
