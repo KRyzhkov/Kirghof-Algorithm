@@ -14,20 +14,20 @@ f_read.close()
 print(mass)
 poi = 1
 while poi == 1:      
-    t = -1
-    l = []*2
+
 
     #Приведение последовательных резистров
-
+    t = -1
+    l = [0]*2
     for x in range(len(mass)-1): 
         t += 1
-        if len(mass[x]) <= 2 and (x != 0):
+        if len(mass[x]) == 2 and (x != 0):
             k = mass[x]
-            valuek = Om_value[t]
-            mass[x] = []
+            valuek = Om_value[x ]
+            mass[x] = [0]
             p = -1
             for y in range(len(mass[k[0]-1])):
-                p += 1
+                p += 10
                 if mass[k[0]-1][y] == t+1:
                     mass[k[0]-1][y] = k[1]
                     l[0] = p
@@ -47,11 +47,11 @@ while poi == 1:
         if len(x)>2 or x == 0 or x == len(mass)-1:
             for y in range(1,len(mass)):
                 a = x.count(y)
-                if a>1:
+                if a>1:qqqqqqqqqqqqqqqqqqqqqqqqqq
                     zn = x.index(y)
                     per = 1/Om_value[t][zn]
                     
-                    for o in range(zn+1,len(x)):
+                    for o in range(zn+1,len(x)): 
                         if x[o] == y:
                             per = per + 1/Om_value[t][o]
                             x[o] = 0
@@ -60,9 +60,11 @@ while poi == 1:
                         a = x.index(0)
                         Om_value[t].pop(a)
                         x.remove(0)
-    poi = 0
+    poi = 0     
+    t4 = -1
     for x in mass:
-        if 3>len(x)>0:
+        t4 += 1
+        if 3>len(x)>1 and t4 != 0 and t4 != len(mass):
             poi = 1
 print(mass)
 #Sostavlenie sistemy yr-i
