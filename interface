@@ -1,0 +1,67 @@
+import tkinter
+import sys
+import random
+ 
+from collections import namedtuple
+
+WIDTH=1200
+HEIGHT=700
+FPS = 1000
+global key
+Point = namedtuple("Point", ["x", "y"])
+A  = []
+
+def draw_field(canvas):
+    w = 20
+    h = 10
+    cell_width = WIDTH // w
+    cell_height = HEIGHT// h
+    def draw_cell(point):
+        canvas.create_rectangle(
+            cell_width * point.x,
+            cell_height * point.y,
+            cell_width * (point.x + 1),
+            cell_height * (point.y + 1))
+
+    canvas.delete(*canvas.find_all())
+
+    for i in range(w-4):
+        for j in range(h-3):
+            draw_cell(Point(i, j))
+
+
+def make_move(key):
+
+
+
+c = tkinter.Canvas(width=WIDTH, height=HEIGHT)
+
+def key_press(event):
+    global key
+    if event.keysym == "1":
+      key = 1
+    if event.keysym == "2":
+      key = 2
+    if event.keysym == "3":
+      key = 3
+    if event.keysym == "4":
+      key = 4
+    if event.keysym == "5":
+      key = 5
+    if event.keysym == "6":
+      key = 6
+    make_move(key)
+c.bind("<Key>", key_press)
+
+def loop():
+  draw_field(c, loop.game)
+
+
+
+
+
+draw_field(c)
+ 
+c.pack()
+c.focus_set()
+c.mainloop()
