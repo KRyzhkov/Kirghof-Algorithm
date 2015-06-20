@@ -5,17 +5,18 @@ import random
 from collections import namedtuple
 
 WIDTH=1200
-HEIGHT=700
+HEIGHT=800
 FPS = 1000
 global key
 Point = namedtuple("Point", ["x", "y"])
-A  = []
-
+VAL  = []
+W = 30
+H = 20
 def draw_field(canvas):
-    w = 20
-    h = 10
-    cell_width = WIDTH // w
-    cell_height = HEIGHT// h
+    global cell_width
+    global cell_height
+    cell_width = WIDTH // W
+    cell_height = HEIGHT // H
     def draw_cell(point):
         canvas.create_rectangle(
             cell_width * point.x,
@@ -24,44 +25,75 @@ def draw_field(canvas):
             cell_height * (point.y + 1))
 
     canvas.delete(*canvas.find_all())
-
-    for i in range(w-4):
-        for j in range(h-3):
+    for i in range(W):
+        for j in range(H):
             draw_cell(Point(i, j))
+    canvas.create_rectangle(
+            cell_width * 0,
+            cell_height * H//2,
+            cell_width * (0 + 1),
+            cell_height * (H//2 + 1),
+            fill= 'green')
+    canvas.create_rectangle(
+            cell_width * W-2,
+            cell_height * H//2,
+            cell_width * (W-1),
+            cell_height * (H//2 + 1),
+            fill= 'green')
+for i in range(H):
+    vs = []
+    for j in range(W):
+        vs.append(0)
+    VAL.append(vs)
+print(VAL)
+
+def make_move(key, point, canvas):
+    '''if key == 1:   
+        c.create_rectangle(
+            cell_width * point.x,
+            cell_height * point.y,
+            cell_width * (point.x + 1),
+            cell_height * (point.y + 1))'''
 
 
-def make_move(key):
 
 
 
 c = tkinter.Canvas(width=WIDTH, height=HEIGHT)
+draw_field(c)
+
+def choose1(event):
+    getx = event.x
+    gety = event.y
+    cx = getx // cell_width
+    cy = gety // cell_height 
+    VAL[cx][cy] = 1
+    c.create_rectangle(
+            cell_width * cx,
+            cell_height * cy,
+            cell_width * (cx + 1),
+            cell_height * (cy + 1),
+            fill= 'green')
+
+def choose2(event):
+    getx = event.x
+    gety = event.y
+    cx = getx // cell_width
+    cy = gety // cell_height 
+    VAL[cx][cy] = 2
+    c.create_rectangle(
+            cell_width * cx,
+            cell_height * cy,
+            cell_width * (cx + 1),
+            cell_height * (cy + 1),
+            fill= 'red')
+c.bind('<Button-1>', choose1)
+c.bind('<Button-3>', choose2)
 
 def key_press(event):
-    global key
-    if event.keysym == "1":
-      key = 1
-    if event.keysym == "2":
-      key = 2
-    if event.keysym == "3":
-      key = 3
-    if event.keysym == "4":
-      key = 4
-    if event.keysym == "5":
-      key = 5
-    if event.keysym == "6":
-      key = 6
-    make_move(key)
+    if event.keysym == "Return":
+        print(VAL)
+        #for x in range(H):
+         #   for y in range(W):
+                
 c.bind("<Key>", key_press)
-
-def loop():
-  draw_field(c, loop.game)
-
-
-
-
-
-draw_field(c)
- 
-c.pack()
-c.focus_set()
-c.mainloop()
