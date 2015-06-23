@@ -12,59 +12,57 @@ f_read.close()
 
 
 print(mass)
+
 poi = 1
 while poi == 1:      
-
-
     #Приведение последовательных резистров
-    t = -1
     l = [0]*2
     for x in range(len(mass)-1): 
-        t += 1
         if len(mass[x]) == 2 and (x != 0):
             k = mass[x]
-            valuek = Om_value[x ]
+            valuek = Om_value[x]
             mass[x] = [0]
             p = -1
             for y in range(len(mass[k[0]-1])):
-                p += 10
-                if mass[k[0]-1][y] == t+1:
+                p += 1
+                if mass[k[0]-1][y] == x+1:
                     mass[k[0]-1][y] = k[1]
                     l[0] = p
+            p = -1
             for y in range(len(mass[k[1]-1])):
                 p += 1
-                if mass[k[1]-1][y] == t+1:
+                if mass[k[1]-1][y] == x+1:
                     mass[k[1]-1][y] = k[0]
                     l[1] = p
-            Om_value[k[0]-1][l[0]] = Om_value[t][0]+Om_value[t][1]
-            Om_value[k[1]-1][l[1]] = Om_value[k[0]-1][l[0]]
-
+            Om_value[k[0]-1][l[0]] = Om_value[x][0]+Om_value[x][1]
+            Om_value[k[1]-1][l[1]] = Om_value[x][0]+Om_value[x][1]
+    poi = 0  
     #Приведение параллельных участков
-
+    
     t = -1
     for x in mass: 
         t += 1
-        if len(x)>2 or x == 0 or x == len(mass)-1:
-            for y in range(1,len(mass)):
+        if len(x)>2 or t == 0 or t == len(mass):
+            for y in range(1,len(mass)+1):
                 a = x.count(y)
-                if a>1:qqqqqqqqqqqqqqqqqqqqqqqqqq
+
+                if a>1:
                     zn = x.index(y)
                     per = 1/Om_value[t][zn]
                     
                     for o in range(zn+1,len(x)): 
                         if x[o] == y:
                             per = per + 1/Om_value[t][o]
-                            x[o] = 0
+                            x[o] = -100
                     Om_value[t][zn] = 1/per
-                    while 0 in x:
-                        a = x.index(0)
+                    while -100 in x:
+                        a = x.index(-100) 
                         Om_value[t].pop(a)
-                        x.remove(0)
-    poi = 0     
+                        x.remove(-100) 
     t4 = -1
     for x in mass:
         t4 += 1
-        if 3>len(x)>1 and t4 != 0 and t4 != len(mass):
+        if (3>len(x)>1) and (t4 != 0) and (t4 != len(mass)-1):
             poi = 1
 print(mass)
 #Sostavlenie sistemy yr-i
@@ -96,39 +94,41 @@ t = -1
 p = 0
 for x in mass:
     t += 1
-    if len(x)>2:
+    if len(x)>2 or t == 0 or t == len(mass)-1:
         index = []
         e = -1
         for y in x:
             e += 1
-            if mass2[t][e] >= 0 :
+            if y > 0:
                 p += 1
                 index.append(p)
-                mass2[e][t] = -1000000 + p
-            else:
-                index.append(mass2[t][e]+1000000)
+                k = mass2[y-1].index(t+1)
+                mass2[y-1][k] = -1000000 + p
+            elif y != 0:
+                index.append(y+1000000)
         mass_index.append(index)
-
+  
 uravn = []
-len_index = p
+len_index = p+1
 t1 = -1
 for x in mass:
-    rebr = [0]*(p-1)
+    rebr = [0] * len_index
     t1 += 1
-    if x == 0 :
-        rebr[0] = 1
-    if len(x) > 2:
-        p1 = -1
-        for y in x:
-            p1 += 1
-            if y > x:
-                zn = -1
-            if x > y:
-                zn = 1
-            rebr[mass_index[t1][p1]] = zn
     if t1 != (len(mass)-1):
-        rebr.append(0)
-        uravn.append[rebr]
+        if t1 == 0 :
+            rebr[0] = 1
+        if len(x) > 2 or t1 == 0:
+            p1 = -1
+            for y in x:         
+                if y != 0:
+                    p1 += 1
+                    if y > (t1+1):
+                        zn = -1
+                    if (t1+1) > y:
+                        zn = 1
+                    rebr[mass_index[t1][p1]] = zn
+            rebr.append(0)
+            uravn.append(rebr)
 
 #Obhod konturov
 
@@ -172,31 +172,43 @@ def kontur1(mass,root,t):
                 kontur1(mass,root,x)
 
 a = kontur1(mass,root,0)
-rebr = [0]*(len_index-1)
+print(a)
+print(mass_index) 
+
+rebr = [0]*(len_index)
+print(rebr)
 w = 1
-for x in len(a):
+for x in range(len(a)):
     s = mass[w-1].index(a[x])
-    rebr[mass_index[w-1][s-1]] = Om_value[w-1][s-1]
+    op = Om_value[w-1][s]
+    print([s,op])
+    pl = 0
+    print(w)
+    if mass[w-1][0] == 0:
+        pl = 1
+    rebr[mass_index[w-1][s-1]] = op
     w = a[x]
 rebr.append(int(input()))
 uravn.append(rebr)
-
+print(uravn)
 #решение СЛАУ методом Гаусса
-for y in range(len(uravn)):
+for y in range(1,len(uravn)):
     x = y
-    while uravn[x][y] != 0: 
+    while uravn[x][y] == 0: 
         x += 1
     i = uravn[y]
     uravn[y] = uravn[x]
     uravn[x] = i
-    k1 = uravn[y][y]
-    k2 = uravn[y+1][y]
-    for q in range(len_index+1):
-       uravn[y+1][q] = uravn[y+1][q] * (k1/k2) - uravn[y][q]
-
+    for t in range(y+1,len(uravn)):
+        k1 = uravn[y][y]
+        k2 = uravn[t][y]
+        for q in range(len_index+1):
+           uravn[t][q] = uravn[t][q] * (k1/k2) - uravn[y][q]
+print(uravn)
 Amper_value = [0]*len_index 
 for y in range(len(uravn)-1,-1,-1):
-    Amper_value[y] = uravn[y][len_index+1]/uravn[y][y]
-    for r in range(y-1, -1, 0):
-        uravn[r][len_index+1] = uravn[r][len_index + 1] - uravn[r][y] * Amper_value[y]
+    Amper_value[y] = uravn[y][len_index]/uravn[y][y]
+    for r in range(y-1, -1, -1):
+        uravn[r][len_index] = uravn[r][len_index] - uravn[r][y] * Amper_value[y]
         uravn[r][y] = 0
+print(Amper_value)  
