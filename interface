@@ -10,8 +10,8 @@ FPS = 1000
 global key
 Point = namedtuple("Point", ["x", "y"])
 VAL  = []
-W = 30
-H = 20
+W = 15
+H = 10
 def draw_field(canvas):
     global cell_width
     global cell_height
@@ -28,6 +28,7 @@ def draw_field(canvas):
     for i in range(W):
         for j in range(H):
             draw_cell(Point(i, j))
+
     canvas.create_rectangle(
             cell_width * 0,
             cell_height * H//2,
@@ -40,24 +41,14 @@ def draw_field(canvas):
             cell_width * (W-1),
             cell_height * (H//2 + 1),
             fill= 'green')
+
 for i in range(H):
     vs = []
     for j in range(W):
         vs.append(0)
     VAL.append(vs)
-print(VAL)
-
-def make_move(key, point, canvas):
-    '''if key == 1:   
-        c.create_rectangle(
-            cell_width * point.x,
-            cell_height * point.y,
-            cell_width * (point.x + 1),
-            cell_height * (point.y + 1))'''
-
-
-
-
+VAL[H//2][0] = 1
+VAL[H//2][W-1] = 1
 
 c = tkinter.Canvas(width=WIDTH, height=HEIGHT)
 draw_field(c)
@@ -67,7 +58,7 @@ def choose1(event):
     gety = event.y
     cx = getx // cell_width
     cy = gety // cell_height 
-    VAL[cx][cy] = 1
+    VAL[cy][cx] = 1
     c.create_rectangle(
             cell_width * cx,
             cell_height * cy,
@@ -80,7 +71,7 @@ def choose2(event):
     gety = event.y
     cx = getx // cell_width
     cy = gety // cell_height 
-    VAL[cx][cy] = 2
+    VAL[cy][cx] = 2
     c.create_rectangle(
             cell_width * cx,
             cell_height * cy,
@@ -92,8 +83,23 @@ c.bind('<Button-3>', choose2)
 
 def key_press(event):
     if event.keysym == "Return":
-        print(VAL)
-        #for x in range(H):
-         #   for y in range(W):
-                
+        '''def obxod(t,x,y):
+            k = 0
+            oiu = []
+            if VAL[y+1][x] == 1:
+                obxod(t,x,y+1)
+                k+=1
+            if VAL[y-1][x] == 1:
+                obxod(t,x,y-1)
+                k+=1
+            if VAL[y][x+1] == 1:
+                obxod(t,x+1,y)
+                k+=1`xx`
+            if k > 1 and t == 0:
+
+                mass.append'''
+
 c.bind("<Key>", key_press)
+c.pack()
+c.focus_set()
+c.mainloop()
