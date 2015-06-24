@@ -303,7 +303,7 @@ def key_press(event):
                 pl = 1
             rebr[mass_index[w-1][s-1]] = op
             w = a[x]
-        print('Введите значение напряжения источника тока в Ом')
+        print('Введите значение напряжения источника тока в Вольтах')
         rebr.append(int(input()))
         uravn.append(rebr)
 
